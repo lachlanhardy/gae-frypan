@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'sinatra'
-require File.dirname(__FILE__) + '/lib/openssl'
-require File.dirname(__FILE__) + '/lib/net_http'
+require 'rb-gae-support'
 require 'twitter'
 require 'haml'
 
