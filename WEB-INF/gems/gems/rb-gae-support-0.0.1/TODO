@@ -1,0 +1,4 @@
+- wrapper for mail
+- maybe some datastore stuff. seeing how bumble goes.
+- No-RDOC the net:http stuff? Or leave it, and detail the differences.
+- catch java exceptions, convert to expected ruby ones
