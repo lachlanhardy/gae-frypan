@@ -54,11 +54,9 @@ module Net
       @use_ssl = flag
     end
 
-    # Does nothing at the moment - avoiding OpenSSL
-    def verify_mode=(mode)
-      # TODO - check the verify mode, and make sure
-      # the URL fetcher uses it.
-    end
+    # Override ssl context accessors
+    # TODO - check what we can implement
+    attr_accessor :ca_path, :verify_callback, :verify_depth, :cert_store, :ca_file, :key, :cert, :verify_mode
     
   end
 
