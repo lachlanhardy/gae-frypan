@@ -1,4 +1,7 @@
-%ul#results
-  - @results.each do |result|
-    %li 
-      = result
+- if @auth_link
+  %a{:href => @auth_link} Sign In with Twitter
+
+/ %ul#results
+/   - @results.each do |result|
+/     %li 
+/       = result
