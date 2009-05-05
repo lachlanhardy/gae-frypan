@@ -1,0 +1,98 @@
+= rb-gae-support
+
+A gem that wraps GAE functionality.
+
+Currently provides easier access to the User service, Monkey Patches Net::HTTP
+to work on google app engine, and provides a simple wrapper for the Memcache service.
+
+This is very early work, so not very complete, and not production ready. If you come across
+any issues, please report them at http://github.com/lstoll/rb-gae-support/issues
+
+<b>Note: do not use jruby-openssl in your app engine application - it'll break it!</b>. It 
+uses native code, which is not supported on app engine.
+
+== Usage
+
+=== Installation
+
+Must be installed into JRuby - this gem is useless under normal ruby.
+
+jruby -S gem install ruby-gae-support
+
+=== Net::HTTP
+
+In your code:
+
+    require 'rb-gae-support'
+
+as early as possible in your application, to make sure that any usage of
+Net::HTTP is caught.
+
+You should then be able to use Net::HTTP and gems that require it like normal.
+
+Note: It currently throws java exceptions rather than ruby exceptions - you
+may need to adjust code to suit. Converting these to the expected ruby
+exceptions is on the TODO list.
+
+=== GAE::User
+
+This wraps the user service, which allows you to authenticate users against
+Google accounts, and check if they have been marked as an Administrator in the
+admin console.
+
+<b>Get a URL for the login form</b>
+
+Call GAE::User.login_url, passing in the URL you wish to return the user to
+once they log in. This will return the URL for the login Form. e.g
+    redirect_to GAE::User.login_url('/home')
+
+<b>Get a URL to log the user out</b>
+
+Call GAE::User.logout_url, passing in the URL to return the user to after
+logging out. This will return the logout URL
+
+<b>Check if a User is logged in.</b>
+
+Call GAE::User.logged_in? . Will return true if a user is logged in, false if
+not.
+
+<b>Check if a User has been set as an Application Admin</>
+
+Call GAE::User.admin?
+
+<b>Get info about the user</b>
+
+Call GAE::User.current. This will return a GAE::User instance, which you can
+call email, nickname and auth_domain on to get those details.
+
+=== GAE::Memcache
+
+Allows you to store & retrieve items in Memcache. Resembles a hash. Note, the type
+must be Serializable in Java. Strings etc. are OK, for arrays you will need to do
+something like this (for a array of strings)
+
+  @array.to_java(:String)
+
+<b>Storing data</b>
+
+    GAE::Memcache['key'] = 'value'
+
+<b>Storing data, with an expiry time</b>
+
+    # Expires in 1 minute
+    GAE::Memcache.put('key', 'value', 60000)
+
+<b>Retrieving Data</b>
+
+    read_data = GAE::Memcache['key']
+
+Returns nil if item not found.
+
+<b>Deleting data</b>
+
+    GAE::Memcache.delete('key')
+
+== Info
+<b>Author:</b> Lincoln Stoll (lstoll@lstoll.net / http://lstoll.net)
+
+<b>License:</b> MIT
