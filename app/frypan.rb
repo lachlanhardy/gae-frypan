@@ -17,7 +17,7 @@ get '/' do
     # require File.join(File.dirname(__FILE__), '..', 'lib', 'twitter')
     require File.join(File.dirname(__FILE__), 'helpers', 'config_store')
     
-    config = ConfigStore.new("config/.twitter")
+    config = ConfigStore.new(File.join(File.dirname(__FILE__), '..', "config", ".twitter"))
     
     oauth = Twitter::OAuth.new(config['token'], config['secret'])
     
